@@ -1,53 +1,56 @@
 const db = require("./db/index");
-// const ctable = require("console.table")
+const ctable = require("console.table")
 const inquirer = require("inquirer");
 // const { writeFile } = require("fs").promises
 
+
 // Menu
-const showMenu = () => {
+const showMenu = function () {
   inquirer
   .prompt([
       {
         type: "list",
         name: "action",
         message: "What would you like to do?",
-        choices: ["Add an employee", "Add a role", "Add a department", "quit"],
+                choices: ['Add an employee', 'Add a role', 'Add a department', 'View all departments', 'View all roles', 
+        'View all employees', "quit"]
       },
     ])
-
-    .then((answer) => {
+    .then((answers) => {
       // add
-      if (answer.action == "Add an employee") {
+      if (answers.action == "Add an employee") {
         employeeInfo();
       }
-      if (answer.action == "Add a role") {
+       else if (answers.action == "Add a role") {
         roleInfo();
       }
-      if (answer.action == "Add a department") {
+      else if (answers.action == "Add a department") {
         departmentInfo();
       }
-      //gets
-      // if (answer.action == "Get a employee") {
-      //   employeeSelect();
+      // gets
+      // if (answer.action == "View all employees") {
+      //   userInfo();
       // }
-      // if (answer.action == "Get a role") {
-      //   roleSelect();
+      // if (answer.action == "View all roles") {
+      //   userInfo();
       // }
-      // if (answer.action == "Get a department") {
-      //   departmentSelect();
+      // if (answer.action == "View all departments") {
+      //   userInfo();
       // }
+
       //quit
 
-      if (answer.action == "quit") {
-        quit();
+      else if (answers.action == "quit") {
+        quit()
       }
-    });
-};
-
-//Add a user
-
-const departmentInfo = () => {
-  inquirer
+      
+    })
+   
+  }
+  
+ //Add a user
+    const departmentInfo = () => { 
+    inquirer
     .prompt([
       {
         type: "input",
@@ -56,9 +59,11 @@ const departmentInfo = () => {
       },
     ])
     .then((answers) => {
-      db.addDepartment(answers).then(showMenu());
-    });
-};
+        console.table([answers])
+        return showMenu()
+      })
+  };
+
 const employeeInfo = () => {
   inquirer
     .prompt([
@@ -80,7 +85,8 @@ const employeeInfo = () => {
       },
     ])
     .then((answers) => {
-      db.addEmployee(answers).then(showMenu());
+      console.table([answers])
+      return showMenu()
     });
 };
 
@@ -105,10 +111,10 @@ const roleInfo = () => {
       },
     ])
     .then((answers) => {
-      db.addRole(answers).then(showMenu());
+      console.table([answers])
+      return showMenu()
     });
 };
-
 //get a user
 // const departmentSelect = () => {
 //   inquirer
@@ -116,8 +122,8 @@ const roleInfo = () => {
 //       {
 //         type: "list",
 //         name: "department_name",
-//         message: "select a department",
-//         choices: [(answers)]
+//         message: "view a department",
+//         choices: [`${this.addDepartment}`]
 //       },
 //     ])
 //     .then((answers) => {
@@ -155,46 +161,22 @@ const roleInfo = () => {
 // const roleSelect = () => {
 //     inquirer
 //       .prompt([
-//         {
-//           type: "input",
-//           name: "title",
-//           message: "What is the new role?",
-//         },
-//         {
-//           type: "input",
-//           name: "salary",
-//           message: "What is the salary?",
-//         },
-//         {
-//           type: "list",
-//           name: "department_id",
-//           message: "department?",
-//           choices: ["Manager", "Engineer", "Satan", "Janitor"]
-//         },
+      
 //       ])
 //       .then((answers) => {
 //         db.addRole(answers);
 //         showMenu();
 //       });
 //   };
+
+
 const quit = () => {
-  process
-    .exit()
-    .then((answers) => {
-      console.log(answers);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  process.exit()
 };
 
-const init = () => {
-  showMenu()
-    // .then((answers) => writeFile("db/seeds.sql", showMenu(answers)))
-    // .then(() => console.log("Successfully wrote to seeds"))
-    // .catch((err) => console.error(err));
-};
 
-init();
+
+showMenu();
+  
 
 module.exports = db;

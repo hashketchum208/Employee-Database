@@ -10,7 +10,7 @@ CREATE TABLE department (
 
 CREATE TABLE role (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-     title TEXT(30) NOT NULL, 
+     title VARCHAR(30) NOT NULL, 
      department_id INT, 
      salary DECIMAL(7,2),
      FOREIGN KEY (department_id)
