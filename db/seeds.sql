@@ -8,8 +8,8 @@ VALUES ("Manager"),
 INSERT INTO role (title, salary, department_id)
 VALUES ("the man", 3000.00, 1),
        ("a maniac", 300.00, 2),
-       ("my wife", 300.00, 4),
-       ("the sensei", 5000.00, 3);
+       ("my wife", 300.00, 3),
+       ("the sensei", 5000.00, 4);
 
 
 INSERT INTO employee (first_name, last_name, role_id)
