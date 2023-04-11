@@ -27,25 +27,26 @@ const showMenu = function () {
       else if (answers.action == "Add a department") {
         departmentInfo();
       }
+    })
+
       // gets
-      // if (answer.action == "View all employees") {
-      //   userInfo();
-      // }
-      // if (answer.action == "View all roles") {
-      //   userInfo();
-      // }
-      // if (answer.action == "View all departments") {
-      //   userInfo();
-      // }
+      then(() => {
+      if (answers.action == "View all employees") {
+        employeeView();
+      }
+      else if (answers.action == "View all roles") {
+        roleView();
+      }
+      else if (answers.action == "View all departments") {
+        departmentView();
+      }
 
       //quit
-
       else if (answers.action == "quit") {
         quit()
       }
       
-    })
-   
+    });
   }
   
  //Add a user
@@ -80,8 +81,8 @@ const employeeInfo = () => {
       {
         type: "list",
         name: "role_id",
-        message: "What is your role?",
-        choices: ["1", "2", "3", "4"],
+        message: "What is your role? 1: the man, 2: a maniac, 3: my wife, 4: the sensei",
+        choices: [1, 2, 3, 4],
       },
     ])
     .then((answers) => {
@@ -106,7 +107,7 @@ const roleInfo = () => {
       {
         type: "list",
         name: "department_id",
-        message: "department?",
+        message: "department? 1: Manager, 2: Engineer, 3: Satan, 4: Janitor",
         choices: [1, 2, 3, 4],
       },
     ])
@@ -115,59 +116,53 @@ const roleInfo = () => {
       return showMenu()
     });
 };
+
+
 //get a user
-// const departmentSelect = () => {
-//   inquirer
-//     .prompt([
-//       {
-//         type: "list",
-//         name: "department_name",
-//         message: "view a department",
-//         choices: [`${this.addDepartment}`]
-//       },
-//     ])
-//     .then((answers) => {
-//       db.getDepartment(answers)
-//       showMenu();
-//     });
-// };
+const departmentView = () => {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "department_view",
+        message: [`${this.getDepartment}`],
+      },
+    ])
+    .then((answers) => {
+      db.getDepartment(answers)
+      return showMenu();
+    });
+};
 
-// const employeeSelect = () => {
-//   inquirer
-//     .prompt([
-//       {
-//         type: "list",
-//         name: "first_name",
-//         message: "choose first name",
-//       },
-//       {
-//         type: "input",
-//         name: "last_name",
-//         message: "What is your last name?",
-//       },
-//       {
-//         type: "list",
-//         name: "role_id",
-//         message: "What is your role?",
-//         choices: ["the man", "a maniac", "my wife", "the sensei"],
-//       },
-//     ])
-//     .then((answers) => {
-//       db.addEmployee(answers);
-//       showMenu();
-//     });
-// };
+const employeeView = () => {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "employee_view",
+        message: [`${this.getEmployee}`],
+      },
+    ])
+    .then((answers) => {
+      db.getEmployee(answers)
+      return showMenu();
+    });
+};
 
-// const roleSelect = () => {
-//     inquirer
-//       .prompt([
-      
-//       ])
-//       .then((answers) => {
-//         db.addRole(answers);
-//         showMenu();
-//       });
-//   };
+const roleView = () => {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "role_view",
+        message: [`${this.getRole}`],
+      },
+    ])
+    .then((answers) => {
+      db.getRole(answers)
+      return showMenu();
+    });
+};
 
 
 const quit = () => {

@@ -15,7 +15,7 @@ VALUES ("the man", 3000.00, 1),
 INSERT INTO employee (first_name, last_name, role_id)
 VALUES ("Blaze", "Smith", 1),
        ("Richard", "Simmons", 2),
-       ("Q", "thats it", 3), 
-       ("Nic", "LeDic", 4),
+       ("Q", "thats it", 4), 
+       ("Nic", "LeDic", 3),
        ("Lazer", "Doe", 2),
        ("Blazer", "Ramirez", 2);
