@@ -1,5 +1,4 @@
-const db = require("./db/index");
-const ctable = require("console.table")
+const DB = require("./db/index");
 const inquirer = require("inquirer");
 // const { writeFile } = require("fs").promises
 
@@ -27,10 +26,7 @@ const showMenu = function () {
       else if (answers.action == "Add a department") {
         departmentInfo();
       }
-    })
-
       // gets
-      then(() => {
       if (answers.action == "View all employees") {
         employeeView();
       }
@@ -129,7 +125,7 @@ const departmentView = () => {
       },
     ])
     .then((answers) => {
-      db.getDepartment(answers)
+      DB.getDepartment(answers)
       return showMenu();
     });
 };
@@ -144,7 +140,7 @@ const employeeView = () => {
       },
     ])
     .then((answers) => {
-      db.getEmployee(answers)
+      DB.getEmployee(answers)
       return showMenu();
     });
 };
@@ -159,7 +155,7 @@ const roleView = () => {
       },
     ])
     .then((answers) => {
-      db.getRole(answers)
+      DB.getRole(answers)
       return showMenu();
     });
 };
@@ -174,4 +170,4 @@ const quit = () => {
 showMenu();
   
 
-module.exports = db;
+module.exports = DB;
