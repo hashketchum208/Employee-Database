@@ -1,5 +1,6 @@
 const DB = require("./db/index");
 const inquirer = require("inquirer");
+const table = require('console.table');
 // const { writeFile } = require("fs").promises
 
 
@@ -28,13 +29,13 @@ const showMenu = function () {
       }
       // gets
       if (answers.action == "View all employees") {
-        employeeView();
+        
       }
       else if (answers.action == "View all roles") {
-        roleView();
+        
       }
       else if (answers.action == "View all departments") {
-        departmentView();
+        deptData()
       }
 
       //quit
@@ -45,7 +46,7 @@ const showMenu = function () {
     });
   }
   
- //Add a user
+ //Add
     const departmentInfo = () => { 
     inquirer
     .prompt([
@@ -56,7 +57,7 @@ const showMenu = function () {
       },
     ])
     .then((answers) => {
-        console.table([answers])
+      console.table([answers])
         return showMenu()
       })
   };
@@ -113,53 +114,44 @@ const roleInfo = () => {
     });
 };
 
-
 //get a user
-const departmentView = () => {
-  inquirer
-    .prompt([
-      {
-        type: "list",
-        name: "department_view",
-        message: [`${this.getDepartment}`],
-      },
-    ])
-    .then((answers) => {
-      DB.getDepartment(answers)
-      return showMenu();
-    });
+
+const deptData = () => {
+inquirer.prompt([
+  {
+    type: 'confirm',
+    message: 'Do you want to display the data in a table?',
+    name: 'departmentTable',
+    default: true
+  }
+]).then((answers) => {
+  const data = [
+    { department_name: answers.departmentInfo }
+  ];
+  if (answers.departmentTable) {
+    console.table(data);
+  }
+  showMenu()
+})
 };
 
-const employeeView = () => {
-  inquirer
-    .prompt([
-      {
-        type: "list",
-        name: "employee_view",
-        message: [`${this.getEmployee}`],
-      },
-    ])
-    .then((answers) => {
-      DB.getEmployee(answers)
-      return showMenu();
-    });
-};
-
-const roleView = () => {
-  inquirer
-    .prompt([
-      {
-        type: "list",
-        name: "role_view",
-        message: [`${this.getRole}`],
-      },
-    ])
-    .then((answers) => {
-      DB.getRole(answers)
-      return showMenu();
-    });
-};
-
+// const employeeView = () => {
+//   inquirer
+//     .prompt([
+//       {
+//         type: 'list',
+//         name: "employeeView",
+//         message: 'findEmployee?',
+//       },
+//     ])
+//     .then((answers) => { 
+//       const data = [
+//         { name: answers.first_name, name: answers.last_name}
+//       ]
+//       console.table(data)
+//        showMenu();
+//     });
+// };
 
 const quit = () => {
   process.exit()
