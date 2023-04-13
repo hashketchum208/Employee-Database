@@ -1,8 +1,17 @@
-const DB = require("./db/index");
 const inquirer = require("inquirer");
-const table = require('console.table');
+const ctable = require('console.table');
+const mysql = require('mysql2');
 // const { writeFile } = require("fs").promises
 
+const connection = mysql.createConnection(
+  {
+    host: 'localhost',
+    user: 'root',
+    password: 'ranch',
+    database: 'user_db'
+  },
+  console.log(`Connected to the user_db database.`)
+);
 
 // Menu
 const showMenu = function () {
@@ -13,13 +22,13 @@ const showMenu = function () {
         name: "action",
         message: "What would you like to do?",
                 choices: ['Add an employee', 'Add a role', 'Add a department', 'View all departments', 'View all roles', 
-        'View all employees', "quit"]
+        'View all employees', "Quit"]
       },
     ])
     .then((answers) => {
       // add
       if (answers.action == "Add an employee") {
-        employeeInfo();
+        employeeInfo()
       }
        else if (answers.action == "Add a role") {
         roleInfo();
@@ -29,20 +38,35 @@ const showMenu = function () {
       }
       // gets
       if (answers.action == "View all employees") {
-        
+        connection.query("select first_name, last_name from employee", ((err, results) => {
+          if(err) {
+              throw err;
+          }
+          console.table(results);
+          return showMenu()
+  }))
       }
       else if (answers.action == "View all roles") {
-        
+        connection.query("select title from role", ((err, results) => {
+          if(err) {
+              throw err;
+          }
+          console.table(results);
+          return showMenu()
+  }))
       }
       else if (answers.action == "View all departments") {
-        deptData()
+        connection.query("select department_name, id from department", ((err, results) => {
+          if(err) {
+              throw err;
+          }
+          console.table(results);
+          return showMenu()
+        }));
       }
-
-      //quit
-      else if (answers.action == "quit") {
+      else if (answers.action == "Quit") {
         quit()
       }
-      
     });
   }
   
@@ -114,52 +138,4 @@ const roleInfo = () => {
     });
 };
 
-//get a user
-
-const deptData = () => {
-inquirer.prompt([
-  {
-    type: 'confirm',
-    message: 'Do you want to display the data in a table?',
-    name: 'departmentTable',
-    default: true
-  }
-]).then((answers) => {
-  const data = [
-    { department_name: answers.departmentInfo }
-  ];
-  if (answers.departmentTable) {
-    console.table(data);
-  }
-  showMenu()
-})
-};
-
-// const employeeView = () => {
-//   inquirer
-//     .prompt([
-//       {
-//         type: 'list',
-//         name: "employeeView",
-//         message: 'findEmployee?',
-//       },
-//     ])
-//     .then((answers) => { 
-//       const data = [
-//         { name: answers.first_name, name: answers.last_name}
-//       ]
-//       console.table(data)
-//        showMenu();
-//     });
-// };
-
-const quit = () => {
-  process.exit()
-};
-
-
-
 showMenu();
-  
-
-module.exports = DB;
